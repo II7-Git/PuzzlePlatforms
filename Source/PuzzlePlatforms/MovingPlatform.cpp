@@ -9,6 +9,20 @@ AMovingPlatform::AMovingPlatform()
     SetMobility(EComponentMobility::Movable);
 }
 
+void AMovingPlatform::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (HasAuthority())
+    {
+        SetReplicates(true);
+        SetReplicateMovement(true);
+    }
+
+    GlobalStartLocation = GetActorLocation();
+    GlobalTargetLocation = GetTransform().TransformPosition(TargetLocation);
+}
+
 void AMovingPlatform::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -17,7 +31,23 @@ void AMovingPlatform::Tick(float DeltaTime)
     if (HasAuthority())
     {
         FVector Location = GetActorLocation();
-        Location += FVector(Speed * DeltaTime, 0, 0);
+
+        // 이동해야할 최대 거리
+        float JourneyLength = (GlobalTargetLocation - GlobalStartLocation).Size();
+        // 현재까지 이동한 거리
+        float JourneyTravelled = (Location - GlobalStartLocation).Size();
+
+        // 이동 거리가 목표 지점을 넘어섰으면 되돌아가게 설정
+        // 시작 벡터와 목표 벡터를 교환
+        if (JourneyTravelled >= JourneyLength)
+        {
+            FVector Swap = GlobalStartLocation;
+            GlobalStartLocation = GlobalTargetLocation;
+            GlobalTargetLocation = Swap;
+        }
+        // 현재 위치에서 타겟 위치까지의 벡터
+        FVector Direction = (GlobalTargetLocation - GlobalStartLocation).GetSafeNormal();
+        Location += Speed * DeltaTime * Direction;
 
         SetActorLocation(Location);
     }
