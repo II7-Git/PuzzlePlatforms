@@ -2,6 +2,7 @@
 
 #include "PlatformTrigger.h"
 #include "Components/BoxComponent.h"
+#include "MovingPlatform.h"
 // Sets default values
 APlatformTrigger::APlatformTrigger()
 {
@@ -19,10 +20,32 @@ APlatformTrigger::APlatformTrigger()
 void APlatformTrigger::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (TriggerVolume != nullptr)
+	{
+		TriggerVolume->OnComponentBeginOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapBegin);
+		TriggerVolume->OnComponentEndOverlap.AddDynamic(this, &APlatformTrigger::OnOverlapEnd);
+	}
 }
 
 // Called every frame
 void APlatformTrigger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void APlatformTrigger::OnOverlapBegin(class UPrimitiveComponent *OverlappedComp, class AActor *OtherActor, class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+	for (AMovingPlatform *Platform : PlatformsTrigger)
+	{
+		Platform->AddActiveTrigger();
+	}
+}
+
+void APlatformTrigger::OnOverlapEnd(class UPrimitiveComponent *OverlappedComp, class AActor *OtherActor, class UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
+{
+	for (AMovingPlatform *Platform : PlatformsTrigger)
+	{
+		Platform->RemoveActiveTrigger();
+	}
 }
