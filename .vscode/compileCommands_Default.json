@@ -1,5 +1,37 @@
 [
 	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\MovingPlatform.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\MovingPlatform.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PlatformTrigger.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PlatformTrigger.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PuzzlePlatforms.Build.cs",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
@@ -33,6 +65,22 @@
 	},
 	{
 		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PuzzlePlatformsCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PuzzlePlatformsGameInstance.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.2\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\Source\\PuzzlePlatforms\\PuzzlePlatformsGameInstance.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.34.31933\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\LJI\\Documents\\Unreal Projects\\PuzzlePlatforms\\.vscode\\compileCommands_Default\\PuzzlePlatforms.261.rsp"
