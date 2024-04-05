@@ -32,6 +32,25 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
         return;
 
     Menu->AddToViewport();
+
+    APlayerController *PlayerController = GetFirstLocalPlayerController();
+    if (PlayerController == nullptr)
+        return;
+
+    // UI 입력 가능하게 설정하는 기능
+
+    // UI인풋에 관한 모드를 생성함
+    FInputModeUIOnly InputModeData;
+    // 조작하고자 하는 위젯의 포커스를 둠
+    InputModeData.SetWidgetToFocus(Menu->TakeWidget());
+    // 마우스가 화면에 잠기지 않게 설정(화면 밖으로 이동하거나 하는 것이 가능)
+    InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+
+    // 만든 인풋 모드로 컨트롤러의 인풋 모드를 변경
+    PlayerController->SetInputMode(InputModeData);
+
+    // 커서 보이기
+    PlayerController->bShowMouseCursor = true;
 }
 
 void UPuzzlePlatformsGameInstance::Host()
