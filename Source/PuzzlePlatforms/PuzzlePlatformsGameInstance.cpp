@@ -8,7 +8,7 @@
 
 #include "PlatformTrigger.h"
 #include "MenuSystem/MainMenu.h"
-
+#include "MenuSystem/MenuWidget.h"
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer &ObjectInitializer)
 {
     ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MenuSystem/WBP_MainMenu"));
@@ -16,6 +16,12 @@ UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitiali
         return;
 
     MenuClass = MenuBPClass.Class;
+
+    ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(TEXT("/Game/MenuSystem/WBP_InGameMenu"));
+    if (!ensure(InGameMenuBPClass.Class != nullptr))
+        return;
+
+    InGameMenuClass = InGameMenuBPClass.Class;
 }
 
 void UPuzzlePlatformsGameInstance::Init()
@@ -35,6 +41,20 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
     Menu->Setup();
     // 종속성 주입
     Menu->SetMenuInterface(this);
+}
+
+void UPuzzlePlatformsGameInstance::InGameLoadMenu()
+{
+    if (InGameMenuClass == nullptr)
+        return;
+    UMenuWidget *InGameMenu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
+
+    if (InGameMenu == nullptr)
+        return;
+
+    InGameMenu->Setup();
+    // 종속성 주입
+    InGameMenu->SetMenuInterface(this);
 }
 
 void UPuzzlePlatformsGameInstance::Host()
@@ -60,6 +80,11 @@ void UPuzzlePlatformsGameInstance::Host()
 
 void UPuzzlePlatformsGameInstance::Join(const FString &Address)
 {
+
+    if (Menu != nullptr)
+    {
+        Menu->Teardown();
+    }
     UEngine *Engine = GetEngine();
 
     if (Engine == nullptr)
