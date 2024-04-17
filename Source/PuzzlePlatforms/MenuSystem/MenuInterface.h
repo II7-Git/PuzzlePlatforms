@@ -25,4 +25,5 @@ public:
 	// 구현은 상속받은 곳에서 하면 된다는 뜻 =0
 	virtual void Host() = 0;
 	virtual void Join(const FString &Address) = 0;
+	virtual void LoadMainMenu() = 0;
 };
