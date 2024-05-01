@@ -13,11 +13,17 @@ UCLASS()
 class PUZZLEPLATFORMS_API UMainMenu : public UMenuWidget
 {
 	GENERATED_BODY()
+public:
+	UMainMenu(const FObjectInitializer &ObjectInitializer);
+
+	void SetServerList(TArray<FString> ServerNames);
 
 protected:
 	virtual bool Initialize();
 
 private:
+	TSubclassOf<class UUserWidget> ServerRowClass;
+
 	// BindWidget : 해당 서브 위젯과 변수의 이름을 바탕으로 자동으로 매칭해서 바인딩 해주는 옵션(따라서 Button 서브 위젯의 이름도 Host여야 같은 UButton Host변수에 매칭된다.)
 	UPROPERTY(meta = (BindWidget))
 	class UButton *HostButton;
@@ -44,7 +50,7 @@ private:
 	class UWidget *MainMenu;
 
 	UPROPERTY(meta = (BindWidget))
-	class UEditableTextBox *IPAddressField;
+	class UPanelWidget *ServerList;
 
 	UFUNCTION()
 	void HostServer();
