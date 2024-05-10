@@ -108,11 +108,13 @@ void UPuzzlePlatformsGameInstance::CreateSession()
     {
         FOnlineSessionSettings SessionSettings;
         // 로컬 네트워크를 통한 검색 허용, 같은 컴퓨터에서 매칭 가능하게 한다.
-        SessionSettings.bIsLANMatch = true;
+        SessionSettings.bIsLANMatch = false;
         // 플레이어 수 제한 (public, private 모두 있다)
         SessionSettings.NumPublicConnections = 2;
         // 온라인에서 세션을 볼 수 있게하는 옵션
         SessionSettings.bShouldAdvertise = true;
+
+        SessionSettings.bUsesPresence = true;
 
         SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
     }
@@ -149,7 +151,9 @@ void UPuzzlePlatformsGameInstance::RefreshServerList()
     if (SessionSearch.IsValid())
     {
         // 로컬 내트워크 매칭 허용
-        SessionSearch->bIsLanQuery = true;
+        // SessionSearch->bIsLanQuery = true;
+        SessionSearch->MaxSearchResults = 100;
+        SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 
         UE_LOG(LogTemp, Warning, TEXT("Starting Find Session"));
         SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
