@@ -108,7 +108,17 @@ void UPuzzlePlatformsGameInstance::CreateSession()
     {
         FOnlineSessionSettings SessionSettings;
         // 로컬 네트워크를 통한 검색 허용, 같은 컴퓨터에서 매칭 가능하게 한다.
-        SessionSettings.bIsLANMatch = false;
+
+        // 서브시스템 이용안하는 테스트 시에는 랜매치 허용
+        if (IOnlineSubsystem::Get()->GetSubsystemName() == "NULL")
+        {
+            SessionSettings.bIsLANMatch = true;
+        }
+        else
+        {
+            SessionSettings.bIsLANMatch = false;
+        }
+
         // 플레이어 수 제한 (public, private 모두 있다)
         SessionSettings.NumPublicConnections = 2;
         // 온라인에서 세션을 볼 수 있게하는 옵션
@@ -166,12 +176,16 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool Success)
     {
         UE_LOG(LogTemp, Warning, TEXT("Finished Find Session"));
 
-        TArray<FString> ServerNames;
-
+        TArray<FServerData> ServerNames;
         for (const FOnlineSessionSearchResult &SearchResult : SessionSearch->SearchResults)
         {
             UE_LOG(LogTemp, Warning, TEXT("Found session names: %s"), *SearchResult.GetSessionIdStr());
-            ServerNames.Add(SearchResult.GetSessionIdStr());
+            FServerData Data;
+            Data.Name = SearchResult.GetSessionIdStr();
+            Data.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
+            Data.CurrentPlayers = Data.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
+            Data.HostUsername = SearchResult.Session.OwningUserName;
+            ServerNames.Add(Data);
         }
 
         Menu->SetServerList(ServerNames);

@@ -48,7 +48,7 @@ void UMainMenu::HostServer()
         MenuInterface->Host();
     }
 }
-void UMainMenu::SetServerList(TArray<FString> ServerNames)
+void UMainMenu::SetServerList(TArray<FServerData> ServerNames)
 {
 
     UWorld *World = this->GetWorld();
@@ -59,14 +59,17 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
     ServerList->ClearChildren();
 
     uint32 i = 0;
-    for (const FString &ServerName : ServerNames)
+    for (const FServerData &ServerData : ServerNames)
     {
         UServerRow *Row = CreateWidget<UServerRow>(World, ServerRowClass);
 
         if (Row == nullptr)
             return;
 
-        Row->ServerName->SetText(FText::FromString(ServerName));
+        Row->ServerName->SetText(FText::FromString(ServerData.Name));
+        Row->HostUser->SetText(FText::FromString(ServerData.HostUsername));
+        FString FractionText = FString::Printf(TEXT("%d/%d"), ServerData.CurrentPlayers, ServerData.MaxPlayers);
+        Row->ConnectionFraction->SetText(FText::FromString(FractionText));
         Row->Setup(this, i);
         ++i;
         ServerList->AddChild(Row);
@@ -76,7 +79,21 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
 void UMainMenu::SelectIndex(uint32 Index)
 {
     SelectedIndex = Index;
+    UpdateChildren();
 }
+
+void UMainMenu::UpdateChildren()
+{
+    for (int32 i = 0; i < ServerList->GetChildrenCount(); i++)
+    {
+        auto Row = Cast<UServerRow>(ServerList->GetChildAt(i));
+        if (Row != nullptr)
+        {
+            Row->Selected = (SelectedIndex.IsSet() && SelectedIndex.GetValue() == i);
+        }
+    }
+}
+
 void UMainMenu::JoinServer()
 {
     if (SelectedIndex.IsSet() && MenuInterface != nullptr)
