@@ -31,13 +31,21 @@ bool UMainMenu::Initialize()
     if (HostButton == nullptr || JoinButton == nullptr)
         return false;
 
-    HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+    HostButton->OnClicked.AddDynamic(this, &UMainMenu::OpenHostMenu);
     JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
     QuitButton->OnClicked.AddDynamic(this, &UMainMenu::QuitPressed);
     CancelJoinMenuButton->OnClicked.AddDynamic(this, &UMainMenu::LoadMainMenu);
     ConfirmJoinMenuButton->OnClicked.AddDynamic(this, &UMainMenu::JoinServer);
 
+    CancelHostMenuButton->OnClicked.AddDynamic(this, &UMainMenu::LoadMainMenu);
+    ConfirmHostMenuButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+
     return true;
+}
+
+void UMainMenu::OpenHostMenu()
+{
+    MenuSwitcher->SetActiveWidget(HostMenu);
 }
 
 void UMainMenu::HostServer()
@@ -45,7 +53,8 @@ void UMainMenu::HostServer()
     UE_LOG(LogTemp, Warning, TEXT("Hosting Now!!"));
     if (MenuInterface != nullptr)
     {
-        MenuInterface->Host();
+        FString ServerName = ServerHostName->GetText().ToString();
+        MenuInterface->Host(ServerName);
     }
 }
 void UMainMenu::SetServerList(TArray<FServerData> ServerNames)
