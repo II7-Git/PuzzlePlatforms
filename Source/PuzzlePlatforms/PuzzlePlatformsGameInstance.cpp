@@ -156,8 +156,9 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
     if (World == nullptr)
         return;
 
-    World->ServerTravel("/Game/ThirdPerson/Maps/ThirdPersonMap?listen");
+    World->ServerTravel("/Game/Maps/Lobby?listen");
 }
+
 void UPuzzlePlatformsGameInstance::RefreshServerList()
 {
     SessionSearch = MakeShareable(new FOnlineSessionSearch());
