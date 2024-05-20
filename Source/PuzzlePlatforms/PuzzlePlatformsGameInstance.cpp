@@ -12,7 +12,7 @@
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/MenuWidget.h"
 
-const static FName SESSION_NAME = TEXT("My Session Game");
+const static FName SESSION_NAME = NAME_GameSession;
 const static FName SERVER_NAME_SETTING_KEY = TEXT("Server Name");
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer &ObjectInitializer)
@@ -48,6 +48,11 @@ void UPuzzlePlatformsGameInstance::Init()
     else
     {
         UE_LOG(LogTemp, Warning, TEXT("Found no subsystem"));
+    }
+
+    if (GEngine != nullptr)
+    {
+        GEngine->OnNetworkFailure().AddUObject(this, &UPuzzlePlatformsGameInstance::OnNetworkFailure);
     }
 }
 
@@ -104,6 +109,11 @@ void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, b
     }
 }
 
+void UPuzzlePlatformsGameInstance::OnNetworkFailure(UWorld *World, UNetDriver *NetDriver, ENetworkFailure::Type FailureType, const FString &ErrorString = TEXT(""))
+{
+    LoadMainMenu();
+}
+
 void UPuzzlePlatformsGameInstance::CreateSession()
 {
     if (SessionInterface.IsValid())
@@ -122,7 +132,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
         }
 
         // 플레이어 수 제한 (public, private 모두 있다)
-        SessionSettings.NumPublicConnections = 2;
+        SessionSettings.NumPublicConnections = 5;
         // 온라인에서 세션을 볼 수 있게하는 옵션
         SessionSettings.bShouldAdvertise = true;
 
@@ -249,6 +259,13 @@ void UPuzzlePlatformsGameInstance::OnJoinSessionComplete(FName SessionName, EOnJ
         return;
 
     PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+}
+void UPuzzlePlatformsGameInstance::StartSession()
+{
+    if (SessionInterface.IsValid())
+    {
+        SessionInterface->StartSession(SESSION_NAME);
+    }
 }
 
 void UPuzzlePlatformsGameInstance::LoadMainMenu()
